@@ -1,0 +1,3 @@
+#/bin/bash
+
+echo "memory memory_usage_percent="$(free | grep 'Mem:' | gawk '{print $3/$2 * 100}') $EPOCHREALTIME | tr -d '.'

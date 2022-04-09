@@ -1,0 +1,41 @@
+###
+
+get_cpu.py
+
+Windows/Linux cpu usage stat in flux line protocol format
+
+psutil required
+
+###
+
+get_memory.py
+
+Windows/Linux cpu usage stat in flux line protocol format
+
+psutil required
+
+###
+
+get_cpu_bash
+
+Linux bash script return a cpu usage stat in flux line protocol format
+
+###
+
+get_memory_bash
+
+Linux bash script return a memory usage stat in flux line protocol format
+
+###
+
+get_cpu_powershell.ps1
+
+Windows powershell script return a cpu usage stat in flux line protocol format
+
+###
+
+get_memory_powershell.ps1
+
+Windows powershell script return a memory usage stat in flux line protocol format
+
+###
