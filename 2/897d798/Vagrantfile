@@ -1,0 +1,91 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+    config.vm.box = "bento/centos-7.7"
+    
+# base provision script
+$base_provision_script = <<-SCRIPT
+sudo -i
+echo "192.168.10.10	controller controller" >> /etc/hosts
+echo "192.168.10.20	compute	compute" >> /etc/hosts     
+SCRIPT
+
+# controller provision script
+$controller_provision_script = <<-SCRIPT
+sudo -i
+# install docker
+yum install -y yum-utils
+yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+yum install -y docker-ce docker-ce-cli containerd.io
+systemctl enable docker
+systemctl start docker
+docker --version
+
+# install docker-compose
+curl -L \
+    "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" \
+    -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose --version
+SCRIPT
+
+# compute provision script
+$compute_provision_script = <<-SCRIPT
+sudo -i
+yum install -y epel-release
+# install telegraf
+cat <<EOF | sudo tee /etc/yum.repos.d/influxdb.repo
+[influxdb]
+name = InfluxDB Repository - RHEL 7
+baseurl = https://repos.influxdata.com/rhel/7/x86_64/stable
+enabled = 1
+gpgcheck = 1
+gpgkey = https://repos.influxdata.com/influxdb.key
+EOF
+yum install -y telegraf
+
+ln -sf /tensor_data/tensor_school/07/07_02_telegraf/telegraf.conf /etc/telegraf/telegraf.conf
+systemctl enable telegraf
+systemctl start telegraf
+
+# install python3
+yum install -y python3 \
+    python3-devel \
+    vim \
+    jq
+python3 -m venv /usr/share/venv
+source /usr/share/venv/bin/activate
+pip install --upgrade pip
+pip install psutil
+
+# other
+yum install -y stress
+SCRIPT
+
+    # controller
+    config.vm.define "controller" do |controller|
+      controller.vm.hostname = "controller"
+      controller.vm.network "private_network", ip: "192.168.10.10"
+      controller.vm.network "forwarded_port", guest: 8086, host: 9808, protocol: "tcp"
+      controller.vm.network "forwarded_port", guest: 3000, host: 9300, protocol: "tcp"
+      controller.vm.provision "shell", inline: $base_provision_script
+      controller.vm.provision "shell", inline: $controller_provision_script
+    end
+  
+    # compute
+    config.vm.define "compute" do |compute|
+      compute.vm.hostname = "compute"
+      compute.vm.network "private_network", ip: "192.168.10.20"
+      compute.vm.provision "shell", inline: $base_provision_script
+      compute.vm.provision "shell", inline: $compute_provision_script
+    end
+  
+    # synced folder
+    config.vm.synced_folder "data/", "/tensor_data", mount_options: ["dmode=777", "fmode=666"]
+   
+end

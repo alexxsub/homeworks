@@ -1,0 +1,4 @@
+Нагрузка
+stress -c 1 --timeout 20m
+Выравнивание нагрузки со 100% до 80%:
+cpulimit -p <PID stress> -l 80

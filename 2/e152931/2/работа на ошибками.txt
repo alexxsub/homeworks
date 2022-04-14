@@ -1,0 +1,8 @@
+Скрипты из ДЗ1 не заработали.
+Ошибки:
+1. Timestamp во всех скриптах был в микросекундах, а не в наносекундах
+2. В скрипте на Powershell формат не соответствовал unix timestamp ((Get-Date).ToFileTime()), исправила на $([DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds())*1000000
+3. В скрипте на Powershell формат вывода не соответствовал influx line protocol:
+Было: "cpu,host="+$host1+" busy_percent="+$Processor+" timestamp="+$timestamp 
+Исправлено на : "cpu,host="+$host1+" busy_percent="+$Processor+" "+$timestamp 
+4. Скрипт на bash выдавал среднее значение загрузки ЦПУ за все время uptime, исправлен

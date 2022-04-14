@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  grafana:
+    image: grafana/grafana-oss
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./grafana/etc/grafana.ini:/etc/grafana/grafana.ini
+    ports:
+     - 3000:3000
+  influxdb:
+    image: influxdb:2.0.9
+    expose:
+      - 8086
+    volumes:
+      - influxdb-storage:/var/lib/influxdb2
+      - ./influxdb/etc:/etc/influxdb2/
+    ports:
+     - 8086:8086  
+volumes:
+  grafana-storage:
+  influxdb-storage:
+

@@ -1,0 +1,5 @@
+1. В windows CPU нагружал стресс тестом Aida64
+   В linux можно использовать утилиту: stress-ng 
+	stress-ng --cpu 4 --cpu-method matrixprod --metrics --timeout 200
+	
+2. Триггер срабатывает, при значении cpu выше 70, в течении 2х минут

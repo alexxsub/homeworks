@@ -1,0 +1,14 @@
+apiVersion: 1
+datasources:
+  - name: influxdb
+    type: influxdb
+    database: telegraf
+    url: http://influxdb:8086
+    isDefault: true
+    secureJsonData:
+      token: secret_token
+    jsonData:
+      version: Flux
+      organization: tensor
+      defaultBucket: telegraf
+      tlsSkipVerify: true

@@ -1,0 +1,95 @@
+services:
+  influx:
+    image: influxdb:2.2-alpine
+    container_name: influx
+    hostname: influx
+    volumes:
+      - type: volume
+        source: influx_data
+        target: /var/lib/influxdb2
+
+      - type: bind
+        source: ./influx/conf/influxdb.conf
+        target: /etc/influxdb2/influxdb.conf
+        read_only: true
+    ports:
+      - target: 8086
+        published: 8086
+        protocol: tcp
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: user
+      DOCKER_INFLUXDB_INIT_PASSWORD: user_pass
+      DOCKER_INFLUXDB_INIT_ORG: my-org
+      DOCKER_INFLUXDB_INIT_BUCKET: telegraf
+
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    hostname: telegraf
+    ports:
+      - target: 8086
+        published: 8089
+        protocol: tcp
+    environment:
+      HOST_PROC: /rootfs/proc
+      HOST_SYS: /rootfs/sys
+      HOST_ETC: /rootfs/etc
+    volumes:
+      - type: bind
+        source: ./telegraf/conf/telegraf.conf
+        target: /etc/telegraf/telegraf.conf
+        read_only: true
+
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+
+      - type: bind
+        source: /sys
+        target: /rootfs/sys
+        read_only: true
+
+      - type: bind
+        source: /proc
+        target: /rootfs/proc
+        read_only: true
+
+  #custom_metrics:
+  #  image: python:latest
+  #  working_dir: /opt/app
+  #  volumes:
+  #    - type: bind
+  #      source: ./custom_metrics/src/
+  #      target: /opt/app
+  #      read_only: true
+  #  command: "pip install -r requirements.txt && python ./custom_metrics.py"
+  #  tty: true
+
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    hostname: grafana
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+    environment:
+      GF_SECURITY_ADMIN_USER: admin_user
+      GF_SECURITY_ADMIN_PASSWORD: admin_pass
+    volumes:
+      - type: volume
+        source: grafana_data
+        target: /var/lib/grafana
+      - type: bind
+        source: ./grafana/provisioning
+        target: /etc/grafana/provisioning
+        read_only: true
+
+volumes:
+  influx_data:
+    driver: local
+  grafana_data:
+    driver: local

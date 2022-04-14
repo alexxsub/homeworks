@@ -1,0 +1,4 @@
+Нагрузка осуществлялась с помощью утилиты sysbench
+sysbench --num-threads=12 --test=cpu --cpu-max-prime=100000000 run
+
+Не нашел как нагрузить именно до 80%

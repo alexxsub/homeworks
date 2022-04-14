@@ -1,0 +1,10 @@
+В скрипте убрал кавычки в выводе, чтоб значение было не строкой, а числом
+было
+"cpu_usage percent=`"$cpu_usage`" $time_marker"
+"mem_usage percent=`"$usage_mem_percent`" $time_marker"
+
+стало
+"cpu_usage percent=$cpu_usage $time_marker"
+"mem_usage percent=$usage_mem_percent $time_marker"
+
+в остальном без изменений по сравнению с первым дз
