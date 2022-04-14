@@ -1,0 +1,31 @@
+version: '3'
+services:
+    grafana-oss:
+        network_mode: grafana
+        ports:
+            - '3000:3000'
+        container_name: grafana
+        restart: always
+        volumes:
+            - '/home/fomka31ru/grafana_monitoring/grafana/lib:/var/lib/grafana'
+        image: grafana/grafana-oss
+        environment:
+            GF_RENDERING_SERVER_URL: http://renderer:8081/render
+            GF_RENDERING_CALLBACK_URL: http://grafana:3000/
+            GF_LOG_FILTERS: rendering:debug
+    renderer:
+        container_name: renderer
+        image: grafana/grafana-image-renderer:latest
+        network_mode: grafana
+        ports:
+            - 8081
+    influxdb:
+        network_mode: grafana
+        container_name: influxdb
+        ports:
+            - '8086:8086'
+        volumes:
+            - '/home/fomka31ru/grafana_monitoring/influxdb2/:/var/lib/influxdb2'
+        image: 'influxdb:2.1.1'
+
+ 

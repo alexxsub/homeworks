@@ -1,0 +1,33 @@
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=8.88889 1649534765488360298
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=13.9785 1649534768511221974
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=38.5417 1649534771362845154
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=4.21053 1649534773687297241
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=7.21649 1649534775881782871
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=11.4583 1649534778057237311
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=5.31915 1649534780040182539
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=6.31579 1649534781955038354
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=1.04167 1649534784355762389
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=1.06383 1649534786350566790
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=2.15054 1649534912512787284
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=2.12766 1649534914785502938
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=5.55556 1649534917050543408
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=2.15054 1649534919344695199
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=25.2632 1649534921601445507
+ansible@ubuntu:~$ /tmp/get_cpu_info.sh 
+CPU_bash,host="Linux" percent=3.26087 1649534924053945361
+ansible@ubuntu:~$ 
