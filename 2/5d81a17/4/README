@@ -1,0 +1,11 @@
+Не удалось вывести два нормированых значения в одну таблицу
+
+from(bucket: "telegraf")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "cpu")
+  |> filter(fn: (r) => r["_field"] == "cpu_usage_percent" or r["_field"] == "usage_idle")
+  |> filter(fn: (r) => r["host"] == "belyah")
+  |> filter(fn: (r) => r["cpu"] == "cpu-total" or r["_field"] == "cpu_usage_percent")
+  |> map(fn: (r) => ({ r with columns: "_field=usage_idle", _value: 100.0 - r._value }))
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
